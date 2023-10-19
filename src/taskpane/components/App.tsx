@@ -1,9 +1,11 @@
 import * as React from "react";
-// import { DefaultButton } from "@fluentui/react";
-import Header from "./Header";
-import HeroList, { HeroListItem } from "./HeroList";
+import { Button } from "@fluentui/react-components";
+// import Header from "./Header";
+import { HeroListItem } from "./HeroList";
 import Progress from "./Progress";
 import { ButtonExample } from "./Button";
+import { TableExample } from "./Table";
+import { ListExample } from "./List";
 
 /* global Word, require */
 
@@ -59,6 +61,13 @@ export default class App extends React.Component<AppProps, AppState> {
     });
   };
 
+  clearDoc = async () => {
+    return Word.run(async (context) => {
+      const body = context.document.body;
+      body.clear();
+    });
+  };
+
   render() {
     const { title, isOfficeInitialized } = this.props;
 
@@ -73,17 +82,27 @@ export default class App extends React.Component<AppProps, AppState> {
     }
 
     return (
-      <div className="ms-welcome">
-        <Header logo={require("./../../../assets/logo-filled.png")} title={this.props.title} message="Welcome" />
+      <div className="ms-welcome__main">
+        {/* <Header logo={require("./../../../assets/logo-filled.png")} title={this.props.title} message="Welcome" />
         <HeroList message="Discover what Office Add-ins can do for you today!" items={this.state.listItems}>
-          <ButtonExample />
-          {/* <p className="ms-font-l">
+          <p className="ms-font-l">
             Modify the source files, then click <b>Run</b>.
           </p>
           <DefaultButton className="ms-welcome__action" iconProps={{ iconName: "ChevronRight" }} onClick={this.click}>
             Run
-          </DefaultButton> */}
-        </HeroList>
+          </DefaultButton>
+        </HeroList> */}
+        <section className="samples">
+          <h2>These are the sample examples of Coloured Text, Table & List</h2>
+        </section>
+        <ButtonExample />
+        <TableExample />
+        <ListExample />
+        <section className="samples">
+          <Button style={{ marginRight: "70px" }} onClick={this.clearDoc}>
+            Clear Document
+          </Button>
+        </section>
       </div>
     );
   }

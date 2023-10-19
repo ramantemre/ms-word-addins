@@ -21,13 +21,13 @@ export class ButtonExample extends React.Component<ButtonProps, {}> {
   public render() {
     let { disabled } = this.props;
     return (
-      <div className="ms-BasicButtonExample">
-        <Label weight="semibold">Click the button to insert text.</Label>
+      <section className="samples">
+        <Label weight="semibold">Click the button to say Hello.</Label>
         <br />
         <Button appearance="primary" disabled={disabled} size="large" onClick={this.insertText}>
-          Insert text
+          Hello text
         </Button>
-      </div>
+      </section>
     );
   }
 }
