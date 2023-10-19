@@ -1,8 +1,9 @@
 import * as React from "react";
-import { DefaultButton } from "@fluentui/react";
+// import { DefaultButton } from "@fluentui/react";
 import Header from "./Header";
 import HeroList, { HeroListItem } from "./HeroList";
 import Progress from "./Progress";
+import { ButtonExample } from "./Button";
 
 /* global Word, require */
 
@@ -75,12 +76,13 @@ export default class App extends React.Component<AppProps, AppState> {
       <div className="ms-welcome">
         <Header logo={require("./../../../assets/logo-filled.png")} title={this.props.title} message="Welcome" />
         <HeroList message="Discover what Office Add-ins can do for you today!" items={this.state.listItems}>
-          <p className="ms-font-l">
+          <ButtonExample />
+          {/* <p className="ms-font-l">
             Modify the source files, then click <b>Run</b>.
           </p>
           <DefaultButton className="ms-welcome__action" iconProps={{ iconName: "ChevronRight" }} onClick={this.click}>
             Run
-          </DefaultButton>
+          </DefaultButton> */}
         </HeroList>
       </div>
     );
