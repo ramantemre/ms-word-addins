@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Label, Button, ButtonProps } from "@fluentui/react-components";
+import { DialogExample } from "./Dialog";
 
 /* global Word */
 
@@ -8,32 +9,48 @@ export class ListExample extends React.Component<ButtonProps, {}> {
     super(props);
   }
 
+  state: Readonly<{ open: boolean; dialogContent: string }> = {
+    open: false,
+    dialogContent: "",
+  };
+
   insertList = async () => {
     // This example starts a new list with the second paragraph.
-    await Word.run(async (context) => {
-      const paragraphs = context.document.body.paragraphs;
-      paragraphs.load("$none");
+    try {
+      await Word.run(async (context) => {
+        const paragraphs = context.document.body.paragraphs;
+        paragraphs.load("$none");
 
-      await context.sync();
+        await context.sync();
 
-      // Start new list using the second paragraph.
-      const list = paragraphs.items[1].startNewList();
-      list.load("$none");
+        // Start new list using the second paragraph.
+        const list = paragraphs.items[1].startNewList();
+        list.load("$none");
 
-      await context.sync();
+        await context.sync();
 
-      // To add new items to the list, use Start or End on the insertLocation parameter.
-      list.insertParagraph("New list item at the start of the list", "Start");
-      const paragraph = list.insertParagraph("New list item at the end of the list (set to list level 5)", "End");
+        // To add new items to the list, use Start or End on the insertLocation parameter.
+        list.insertParagraph("New list item at the start of the list", "Start");
+        const paragraph = list.insertParagraph("New list item at the end of the list (set to list level 5)", "End");
 
-      // Set up list level for the list item.
-      paragraph.listItem.level = 4;
+        // Set up list level for the list item.
+        paragraph.listItem.level = 4;
 
-      // To add paragraphs outside the list, use Before or After.
-      list.insertParagraph("New paragraph goes after (not part of the list)", "After");
+        // To add paragraphs outside the list, use Before or After.
+        list.insertParagraph("New paragraph goes after (not part of the list)", "After");
 
-      await context.sync();
-    });
+        await context.sync();
+      });
+    } catch (error) {
+      // eslint-disable-next-line no-undef
+      console.error(error);
+      this.setState({ open: true, dialogContent: error?.message || "" });
+      //   await Word.run(async (context) => {
+      //     let body = context.document.body;
+      //     body.insertParagraph(`Encountered Error: ${error}`, Word.InsertLocation.end);
+      //     await context.sync();
+      //   });
+    }
   };
 
   setup = async () => {
@@ -81,6 +98,12 @@ export class ListExample extends React.Component<ButtonProps, {}> {
             Insert List
           </Button>
         </section>
+        <DialogExample
+          open={this.state.open}
+          onOpenChange={() => this.setState({ open: false, dialogConten: "" })}
+          title="Error Message"
+          content={this.state.dialogContent}
+        />
       </>
     );
   }
